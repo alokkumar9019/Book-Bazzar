@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-200 text-gray-900">
+    <!-- Flash Message -->
+    <% if (messages.success.length > 0) { %>
+    <div
+      id="flash-message"
+      class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-400 text-gray-900 px-4 py-2 rounded-md shadow-lg transition-opacity duration-500"
+    >
+      <%= messages.success %>
+    </div>
+    <% } %> <%- include("./headers") %>
+
+    <div class="container mx-auto py-10 px-6">
+      <h1 class="text-3xl font-semibold text-center text-gray-700 mb-6">
+        Your Shopping Cart
+      </h1>
+
+      <% if (user.cart.length === 0) { %>
+      <p class="text-center text-gray-500 text-lg">Your cart is empty.</p>
+      <% } else { %>
+
+      <!-- Cart Items -->
+      <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="text-gray-600 border-b border-gray-300">
+              <th class="py-3">Product</th>
+              <th class="py-3">Price</th>
+              <th class="py-3">Discount</th>
+              <th class="py-3">Final Price</th>
+              <th class="py-3">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% user.cart.forEach((product) => { %>
+            <tr class="border-b border-gray-300 bg-white">
+              <td class="flex items-center space-x-4 py-4">
+                <img
+                  src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                  alt="<%= product.name %>"
+                  class="w-16 h-16 object-cover rounded-lg"
+                />
+                <span class="text-lg text-gray-700"> <%= product.name %> </span>
+              </td>
+              <td class="py-4 text-lg text-gray-700">$<%= product.price %></td>
+              <td class="py-4 text-lg text-red-500 font-semibold">
+                <% if (product.discount > 0) { %> <%= product.discount %>% OFF
+                <% } else { %> No Discount <% } %>
+              </td>
+              <% let finalPrice = product.price; if (product.discount > 0) {
+              finalPrice -= (finalPrice * product.discount / 100); } %>
+              <td class="py-4 text-lg font-semibold text-green-600">
+                $<%= finalPrice.toFixed(2) %>
+              </td>
+              <td class="py-4">
+                <form action="/cart/remove/<%= product._id %>" method="POST">
+                  <button
+                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md"
+                  >
+                    Remove
+                  </button>
+                </form>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Cart Summary -->
+      <div class="flex justify-between mt-6 bg-gray-300 p-4 rounded-lg">
+        <h2 class="text-xl font-semibold">Total Amount:</h2>
+        <h2 class="text-xl font-bold text-green-500">
+          $<%= user.cart.reduce((total, product) => { let price = product.price;
+          if (product.discount > 0) { price -= (price * product.discount / 100);
+          } return total + price; }, 0).toFixed(2) %>
+        </h2>
+      </div>
+
+      <!-- Checkout Button -->
+      <div class="flex justify-center mt-6">
+        <form action="/checkout" method="POST">
+          <button
+            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 text-lg rounded-lg font-semibold shadow-md"
+          >
+            Proceed to Checkout
+          </button>
+        </form>
+      </div>
+
+      <% } %>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        const flashMsg = document.getElementById("flash-message");
+        if (flashMsg) {
+          flashMsg.style.opacity = "0";
+          setTimeout(() => flashMsg.remove(), 300);
+        }
+      }, 2000);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 flex justify-center items-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
+      <h2 class="text-2xl font-bold text-center mb-6 text-gray-700">
+        Update Profile
+      </h2>
+
+      <form
+        action="/update-profile/<%=user._id%>"
+        method="POST"
+        enctype="multipart/form-data"
+        class="space-y-4"
+      >
+        <div class="flex flex-col items-center">
+          <img
+            id="preview"
+            src="data:image/jpeg;base64,<%= user.picture && user.picture.toString('base64') %>"
+            alt="Profile Picture"
+            class="w-24 h-24 rounded-full object-cover border-4 border-gray-300 shadow-md mb-4"
+          />
+          <input
+            type="file"
+            name="picture"
+            id="profilePicture"
+            accept="image/*"
+            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 cursor-pointer"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium">Full Name:</label>
+          <input
+            type="text"
+            name="fullname"
+            value="<%= user.fullname %>"
+            required
+            class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium">Contact:</label>
+          <input
+            type="text"
+            name="contact"
+            value="<%= user.contact %>"
+            required
+            class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 transition"
+        >
+          Update Profile
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

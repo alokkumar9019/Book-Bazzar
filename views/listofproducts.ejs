@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-gray-900 text-gray-300">
+    <!-- Flash Message -->
+    <% if (messages.success.length > 0) { %>
+    <div
+      id="flash-message"
+      class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-gray-900 px-4 py-2 rounded-md shadow-lg transition-opacity duration-500"
+    >
+      <%= messages.success %>
+    </div>
+    <% } %>
+
+    <!-- Include Header -->
+    <%- include("./headers") %>
+
+    <div class="container mx-auto py-10 px-6">
+      <h1 class="text-4xl font-bold text-center text-gray-300 mb-10">
+        Our Products
+      </h1>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <% products.forEach((product) => { %>
+        <div
+          class="p-6 rounded-2xl shadow-lg transition-all transform hover:scale-105 hover:shadow-xl flex flex-col justify-between bg-gray-800"
+        >
+          <!-- Product Image -->
+          <div class="relative">
+            <img
+              src="data:image/jpeg;base64,<%=product.image.toString('base64')%>"
+              alt="<%= product.name %>"
+              class="w-full h-48 object-cover rounded-lg"
+            />
+            <% if (product.discount > 0) { %>
+            <span
+              class="absolute top-3 right-3 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full shadow-md"
+            >
+              <%= product.discount %>% OFF
+            </span>
+            <% } %>
+          </div>
+
+          <!-- Product Info -->
+          <div class="text-center py-4 text-gray-300">
+            <h3 class="text-xl font-semibold"><%= product.name %></h3>
+            <p class="text-lg text-gray-400 mt-1">
+              Price:
+              <span class="font-bold text-gray-100">$<%= product.price %></span>
+            </p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex justify-center space-x-4 mt-4">
+            <a
+              href="/wishlist/<%=product._id%>"
+              class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition shadow-md"
+            >
+              Add to Cart
+            </a>
+            <button
+              class="bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg transition shadow-md"
+            >
+              View Details
+            </button>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        const flashMsg = document.getElementById("flash-message");
+        if (flashMsg) {
+          flashMsg.style.opacity = "0";
+          setTimeout(() => flashMsg.remove(), 300);
+        }
+      }, 2000);
+    </script>
+  </body>
+</html>
