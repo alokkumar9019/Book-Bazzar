@@ -35,10 +35,37 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
+const jwt = require('jsonwebtoken');
+const userModel = require('./models/user.model');
+const ownerModel = require('./models/owner.model');
 
 // Middleware to pass the token status to EJS views
 app.use((req, res, next) => {
   res.locals.isAuthenticated = !!req.cookies.token; // Set isAuthenticated as true if token exists
+  next();
+});
+
+// If user has a token, decode it and populate res.locals with user and isAdmin
+app.use(async (req, res, next) => {
+  try {
+    res.locals.user = null;
+    res.locals.isAdmin = false;
+    if (req.cookies.token) {
+      const decoded = jwt.verify(req.cookies.token, 'abcdef');
+      const user = await userModel.findOne({ email: decoded.email }).select('-password');
+      if (user) {
+        res.locals.user = user;
+        if (user.isadmin) res.locals.isAdmin = true;
+      }
+      // If not found in users, check ownerModel
+      if (!res.locals.isAdmin) {
+        const owner = await ownerModel.findOne({ email: decoded.email });
+        if (owner) res.locals.isAdmin = true;
+      }
+    }
+  } catch (err) {
+    // Ignore; res.locals will remain default
+  }
   next();
 });
 app.use("/", homeRouter);
@@ -46,4 +73,6 @@ app.use("/owners", ownerRouter);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 
-app.listen(PORT);
+app.listen(PORT,()=>{
+  console.log(`Server started on ${PORT}` )
+});

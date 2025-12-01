@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const ownerModel = require("../models/owner.model");
+const isLoggedIn = require('../middlewares/isLoggedIn');
+const isAdmin = require('../middlewares/isAdmin');
 
 if (process.env.NODE_ENV === "development") {
   router.post("/create", async (req, res) => {
@@ -25,7 +27,7 @@ router.get("/", (req, res) => {
   res.send("hey owners");
 });
 
-router.get("/admin", (req, res) => {
+router.get("/admin", isLoggedIn, isAdmin, (req, res) => {
   res.render("createproducts", { user: true });
 });
 module.exports = router;

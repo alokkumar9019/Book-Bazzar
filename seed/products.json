@@ -1,0 +1,272 @@
+[
+  {
+    "image": "https://picsum.photos/seed/book-1/600/400",
+    "name": "The Silent Orchard",
+    "price": 14.99,
+    "discount": 10,
+    "bgcolor": "#F7F3E9",
+    "panelcolor": "#FFDAB9",
+    "textcolor": "#333333"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-2/600/400",
+    "name": "Midnight Atlas",
+    "price": 22.5,
+    "discount": 5,
+    "bgcolor": "#EDF6FF",
+    "panelcolor": "#BEE3F8",
+    "textcolor": "#1F2937"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-3/600/400",
+    "name": "Rust & Stardust",
+    "price": 18.0,
+    "discount": 15,
+    "bgcolor": "#FFF8F1",
+    "panelcolor": "#FFD6C2",
+    "textcolor": "#2D2D2D"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-4/600/400",
+    "name": "Pocket Guide to Urban Gardening",
+    "price": 9.99,
+    "discount": 0,
+    "bgcolor": "#EFFAF0",
+    "panelcolor": "#CFF7D3",
+    "textcolor": "#164B2C"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-5/600/400",
+    "name": "Fable & Alloy",
+    "price": 27.0,
+    "discount": 20,
+    "bgcolor": "#F5F8FF",
+    "panelcolor": "#D6E4FF",
+    "textcolor": "#0B2545"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-6/600/400",
+    "name": "The Empath's Manual",
+    "price": 12.5,
+    "discount": 0,
+    "bgcolor": "#FFF5F8",
+    "panelcolor": "#FFDDEE",
+    "textcolor": "#4A2236"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-7/600/400",
+    "name": "Calculus Through Stories",
+    "price": 34.99,
+    "discount": 12,
+    "bgcolor": "#F4F9FF",
+    "panelcolor": "#E0EEFF",
+    "textcolor": "#0E2A47"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-8/600/400",
+    "name": "Voyage of the Empty Shore",
+    "price": 19.95,
+    "discount": 8,
+    "bgcolor": "#FFF9F0",
+    "panelcolor": "#FFE7B3",
+    "textcolor": "#2B2B2B"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-9/600/400",
+    "name": "Kitchen Anthropology",
+    "price": 15.0,
+    "discount": 0,
+    "bgcolor": "#FFFDF6",
+    "panelcolor": "#FFE1B8",
+    "textcolor": "#4A3B2B"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-10/600/400",
+    "name": "Cloud City Detectives",
+    "price": 11.49,
+    "discount": 5,
+    "bgcolor": "#F0F8FF",
+    "panelcolor": "#CDE7FF",
+    "textcolor": "#09203F"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-11/600/400",
+    "name": "Introduction to Machine Thought",
+    "price": 39.99,
+    "discount": 25,
+    "bgcolor": "#F2F4F8",
+    "panelcolor": "#DEE6F4",
+    "textcolor": "#122336"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-12/600/400",
+    "name": "Whispers from the Dune",
+    "price": 17.75,
+    "discount": 10,
+    "bgcolor": "#FFF7F0",
+    "panelcolor": "#FFD1C2",
+    "textcolor": "#3A2F28"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-13/600/400",
+    "name": "Beginner's Guide to Watercolor",
+    "price": 24.5,
+    "discount": 18,
+    "bgcolor": "#FBFFFB",
+    "panelcolor": "#DFF7E7",
+    "textcolor": "#1A4B31"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-14/600/400",
+    "name": "The Last Library",
+    "price": 29.99,
+    "discount": 30,
+    "bgcolor": "#FFF8FE",
+    "panelcolor": "#FFD7F0",
+    "textcolor": "#351533"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-15/600/400",
+    "name": "Riddles of the Old Clock",
+    "price": 8.5,
+    "discount": 0,
+    "bgcolor": "#FFFDF8",
+    "panelcolor": "#FFF0D1",
+    "textcolor": "#4B3F2F"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-16/600/400",
+    "name": "Hike the Hidden Paths",
+    "price": 13.99,
+    "discount": 5,
+    "bgcolor": "#F3FFF5",
+    "panelcolor": "#C9F5D6",
+    "textcolor": "#123B22"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-17/600/400",
+    "name": "Atlas of Forgotten Oceans",
+    "price": 26.0,
+    "discount": 22,
+    "bgcolor": "#F0FDFF",
+    "panelcolor": "#CFEFFF",
+    "textcolor": "#062D40"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-18/600/400",
+    "name": "Practical Home Robotics",
+    "price": 45.0,
+    "discount": 15,
+    "bgcolor": "#F7F9FB",
+    "panelcolor": "#E0E7F1",
+    "textcolor": "#0B1B2B"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-19/600/400",
+    "name": "Poems for Small Moments",
+    "price": 9.0,
+    "discount": 0,
+    "bgcolor": "#FFFDFB",
+    "panelcolor": "#FFF0E6",
+    "textcolor": "#332420"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-20/600/400",
+    "name": "The Heir of Glass",
+    "price": 21.99,
+    "discount": 10,
+    "bgcolor": "#FEF8FF",
+    "panelcolor": "#F1DFFB",
+    "textcolor": "#321A3A"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-21/600/400",
+    "name": "Techniques of Fine Bread Making",
+    "price": 20.0,
+    "discount": 5,
+    "bgcolor": "#FFF7ED",
+    "panelcolor": "#FFE6C9",
+    "textcolor": "#3A2A12"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-22/600/400",
+    "name": "Neon Nights: Noir Saga",
+    "price": 16.49,
+    "discount": 7,
+    "bgcolor": "#0D0D10",
+    "panelcolor": "#1A1A24",
+    "textcolor": "#F4EFEC"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-23/600/400",
+    "name": "The Beginner's Code",
+    "price": 29.5,
+    "discount": 20,
+    "bgcolor": "#F6FBFF",
+    "panelcolor": "#DCEFFF",
+    "textcolor": "#071930"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-24/600/400",
+    "name": "Backyard Astronomy",
+    "price": 12.0,
+    "discount": 0,
+    "bgcolor": "#FFFDFB",
+    "panelcolor": "#FFF6D9",
+    "textcolor": "#2E2E2E"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-25/600/400",
+    "name": "Museum of Mirrored Lives",
+    "price": 18.25,
+    "discount": 10,
+    "bgcolor": "#FFF8FA",
+    "panelcolor": "#FFDEE9",
+    "textcolor": "#332129"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-26/600/400",
+    "name": "Simple Sewing Patterns",
+    "price": 11.99,
+    "discount": 0,
+    "bgcolor": "#FFFDF8",
+    "panelcolor": "#FFF0D8",
+    "textcolor": "#3B2F22"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-27/600/400",
+    "name": "A History of Tiny Empires",
+    "price": 31.0,
+    "discount": 14,
+    "bgcolor": "#FBFCFF",
+    "panelcolor": "#E6EEFF",
+    "textcolor": "#081B34"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-28/600/400",
+    "name": "How to Read a River",
+    "price": 10.49,
+    "discount": 0,
+    "bgcolor": "#F7FFFB",
+    "panelcolor": "#DFF7EA",
+    "textcolor": "#153625"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-29/600/400",
+    "name": "The Painted Map",
+    "price": 23.75,
+    "discount": 18,
+    "bgcolor": "#FFF7FE",
+    "panelcolor": "#FFDFF7",
+    "textcolor": "#3A2137"
+  },
+  {
+    "image": "https://picsum.photos/seed/book-30/600/400",
+    "name": "Stories from the Clocktower",
+    "price": 15.95,
+    "discount": 6,
+    "bgcolor": "#FFF7F5",
+    "panelcolor": "#FFDCCF",
+    "textcolor": "#382A22"
+  }
+]

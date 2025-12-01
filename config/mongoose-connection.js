@@ -10,7 +10,7 @@ if (!MONGODB_URI) {
 }
 
 mongoose
-  .connect(`${MONGODB_URI}/BookDB`)
+  .connect(MONGODB_URI)
   .then(() => dbgr("✅ MongoDB connected successfully!"))
   .catch((err) => dbgr("❌ MongoDB connection error:", err));
 
