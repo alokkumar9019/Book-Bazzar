@@ -11,7 +11,10 @@ if (!MONGODB_URI) {
 
 mongoose
   .connect(MONGODB_URI)
-  .then(() => dbgr("✅ MongoDB connected successfully!"))
+  .then(() => {
+    dbgr("✅ MongoDB connected successfully!");
+    dbgr(`MongoDB host: ${mongoose.connection.host}, database: ${mongoose.connection.name}`);
+  })
   .catch((err) => dbgr("❌ MongoDB connection error:", err));
 
 module.exports = mongoose.connection;

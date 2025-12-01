@@ -10,8 +10,30 @@ router.get("/", (req, res) => {
 });
 
 router.get("/shop", async (req, res) => {
-  const products = await productModel.find();
-  res.render("listofproducts", { products });
+  try {
+    const products = await productModel.find();
+    console.log("[SHOP] Products found:", products.length);
+    // Debug: show first product _id (if any)
+    if (products.length > 0) console.log("[SHOP] First product:", products[0].name);
+    res.render("listofproducts", { products });
+  } catch (err) {
+    console.error("[SHOP] Error loading products:", err);
+    // Render page with an empty list so UI doesn't crash; show a helpful message
+    req.flash("error", "Unable to load products right now. Please try again later.");
+    res.render("listofproducts", { products: [] });
+  }
+});
+
+// DEBUG: Return products count & first document (dev only)
+router.get('/debug/products', async (req, res) => {
+  try {
+    const count = await productModel.countDocuments();
+    const sample = await productModel.findOne();
+    res.json({ count, sample });
+  } catch (err) {
+    console.error('[DEBUG] Error fetching products:', err);
+    res.status(500).json({ error: 'Error fetching products' });
+  }
 });
 
 router.get("/wishlist/:id", isLoggedIn, async (req, res) => {
