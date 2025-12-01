@@ -3,16 +3,50 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const session = require("express-session");
+const connectMongo = require('connect-mongo');
+// connect-mongo can export either a function or a default; make usage resilient
+let MongoStore = connectMongo;
+if (connectMongo && connectMongo.default) MongoStore = connectMongo.default;
 const flash = require("connect-flash");
 require("dotenv").config();
 const PORT = process.env.PORT || 3000;
 app.use(flash());
 app.use(
   session({
-    secret: "abcdef",
+    secret: process.env.SESSION_SECRET || 'abcdef',
     resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 60000 },
+    saveUninitialized: false,
+    store: (function createMongoStore() {
+      const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/bookbazzar';
+      // Preferred: MongoStore.create if available
+      if (MongoStore && typeof MongoStore.create === 'function') {
+        console.log('[SESSION] Using MongoStore.create');
+        return MongoStore.create({ mongoUrl: mongoUri, ttl: 14 * 24 * 60 * 60 });
+      }
+      // Fallback: Some versions export a function that needs to be passed `session`
+      if (typeof MongoStore === 'function') {
+        try {
+          // Try the constructor approach
+          console.log('[SESSION] Using new MongoStore({...})');
+          return new MongoStore({ mongoUrl: mongoUri, ttl: 14 * 24 * 60 * 60 });
+        } catch (err) {
+          try {
+            console.log('[SESSION] Trying MongoStore(session) fallback');
+            return MongoStore(session)({ url: mongoUri, ttl: 14 * 24 * 60 * 60 });
+          } catch (err2) {
+            console.error('Failed to create MongoStore with fallback methods:', err, err2);
+            return undefined;
+          }
+        }
+      }
+      console.error('connect-mongo is not compatible; please upgrade/downgrade connect-mongo package');
+      return undefined;
+    })(),
+    cookie: {
+      maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    },
   })
 );
 app.use((req, res, next) => {
