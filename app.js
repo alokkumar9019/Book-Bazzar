@@ -12,7 +12,10 @@ const flash = require("connect-flash");
 require("dotenv").config();
 const PORT = process.env.PORT || 3000;
 
-app.use(flash());
+// Set cookie parser before session so session middleware can access cookies
+app.use(cookieParser());
+
+// Session (store in MongoDB for production)
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'abcdef',
@@ -29,6 +32,22 @@ app.use(
     },
   })
 );
+
+// flash must come after session
+app.use(flash());
+
+// Make flash messages available in views via res.locals.messages
+app.use((req, res, next) => {
+  try {
+    res.locals.messages = {
+      success: req.flash('success') || [],
+      error: req.flash('error') || [],
+    };
+  } catch (e) {
+    res.locals.messages = { success: [], error: [] };
+  }
+  next();
+});
 
 const db = require("./config/mongoose-connection");  // ✅ ONLY ONE MONGODB CONNECTION
 
