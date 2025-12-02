@@ -14,3 +14,6 @@ const ownerSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model("owner", ownerSchema);
+
+// index email to make owner lookups quicker
+ownerSchema.index({ email: 1 });

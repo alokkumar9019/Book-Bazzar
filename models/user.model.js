@@ -19,4 +19,7 @@ const userSchema = mongoose.Schema({
   picture: Buffer,
 });
 
+// Index the email field for faster lookups
+userSchema.index({ email: 1 });
+
 module.exports = mongoose.model("user", userSchema);

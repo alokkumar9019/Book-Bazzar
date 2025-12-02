@@ -32,6 +32,10 @@ router.post("/create", isLoggedIn, isAdmin, upload.single("image"), async (req, 
     panelcolor,
     textcolor,
   });
+  // Clear product cache so new product appears quickly
+  try {
+    if (req.app && req.app.locals) req.app.locals.productsCache = null;
+  } catch (err) {}
 
   res.redirect("/owners/admin");
 });

@@ -13,9 +13,12 @@ require("dotenv").config();
 const PORT = process.env.PORT || 3000;
 
 // Set cookie parser before session so session middleware can access cookies
-app.use(cookieParser());
+// cookie parser is used only once; it was previously declared before and here
 
 // Session (store in MongoDB for production)
+// Parse cookies before session and auth so req.cookies is available
+app.use(cookieParser());
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'abcdef',
@@ -23,7 +26,8 @@ app.use(
     saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URI,
-      ttl: 14 * 24 * 60 * 60
+      ttl: 14 * 24 * 60 * 60,
+      touchAfter: 24 * 3600, // only resave session once per day (seconds)
     }),
     cookie: {
       maxAge: 14 * 24 * 60 * 60 * 1000,
@@ -61,14 +65,25 @@ const productsRouter = require("./routes/productsRouter");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(cookieParser());
 
 const jwt = require('jsonwebtoken');
 const userModel = require('./models/user.model');
 const ownerModel = require('./models/owner.model');
 
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = !!req.cookies.token;
+  res.locals.isAuthenticated = !!(req.cookies && req.cookies.token);
+  next();
+});
+
+// Request/response timing middleware for performance debugging
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.once('finish', () => {
+    const ms = Date.now() - start;
+    if (ms > 300) { // log only slow requests (over 300ms)
+      console.log(`[PERF] ${req.method} ${req.originalUrl} took ${ms}ms`);
+    }
+  });
   next();
 });
 
@@ -77,8 +92,10 @@ app.use(async (req, res, next) => {
     res.locals.user = null;
     res.locals.isAdmin = false;
 
-    if (req.cookies.token) {
-      const decoded = jwt.verify(req.cookies.token, 'abcdef');
+    if (req.cookies && req.cookies.token) {
+      // Use env-based secret for JWT verification (falls back to SESSION_SECRET)
+      const jwtSecret = process.env.JWT_SECRET || process.env.SESSION_SECRET || 'abcdef';
+      const decoded = jwt.verify(req.cookies.token, jwtSecret);
       const user = await userModel.findOne({ email: decoded.email }).select('-password');
 
       if (user) {

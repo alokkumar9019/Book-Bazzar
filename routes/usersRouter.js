@@ -55,7 +55,8 @@ router.post("/login", async (req, res) => {
 
   bcrypt.compare(password, user.password, (err, result) => {
     if (result) {
-      const token = jwt.sign({ email: user.email }, "abcdef");
+      const jwtSecret = process.env.JWT_SECRET || process.env.SESSION_SECRET || 'abcdef';
+      const token = jwt.sign({ email: user.email }, jwtSecret);
       res.cookie("token", token);
 
       req.flash("success", "Login successful!");

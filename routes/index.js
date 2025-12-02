@@ -11,10 +11,22 @@ router.get("/", (req, res) => {
 
 router.get("/shop", async (req, res) => {
   try {
-    const products = await productModel.find();
-    console.log("[SHOP] Products found:", products.length);
+    const cached = req.app.locals.productsCache;
+    let products;
+        if (cached && cached.count && (Date.now() - cached.timestamp) < 1000 * 60 * 2) {
+          // Cache hit (2 minutes TTL)
+          console.log('[SHOP] Cache hit for products');
+          products = cached.products;
+        } else {
+          products = await productModel
+            .find()
+            .select('image name price discount bgcolor panelcolor textcolor')
+            .lean();
+          console.log("[SHOP] Products found:", products.length);
+          req.app.locals.productsCache = { products, count: products.length, timestamp: Date.now() };
+        }
     // Debug: show first product _id (if any)
-    if (products.length > 0) console.log("[SHOP] First product:", products[0].name);
+    if (products && products.length > 0) console.log("[SHOP] First product:", products[0].name);
     res.render("listofproducts", { products });
   } catch (err) {
     console.error("[SHOP] Error loading products:", err);
@@ -37,9 +49,12 @@ router.get('/debug/products', async (req, res) => {
 });
 
 router.get("/wishlist/:id", isLoggedIn, async (req, res) => {
-  const user = await userModel.findOne({ email: req.user.email });
-  user.cart.push(req.params.id);
-  await user.save();
+  // Use atomic update to reduce DB roundtrips
+  await userModel.findOneAndUpdate(
+    { email: req.user.email },
+    { $push: { cart: req.params.id } },
+    { new: true }
+  );
   req.flash("success", "Product added to cart! 🛒");
   res.redirect("/shop");
 });
@@ -52,12 +67,12 @@ router.get("/cart", isLoggedIn, async (req, res) => {
 });
 
 router.post("/cart/remove/:id", isLoggedIn, async (req, res) => {
-  const user = await userModel.findOne({ email: req.user.email });
-  const productIndex = user.cart.findIndex(
-    (product) => product._id.toString() === req.params.id
+  // Use atomic update to reduce DB roundtrips
+  await userModel.findOneAndUpdate(
+    { email: req.user.email },
+    { $pull: { cart: req.params.id } },
+    { new: true }
   );
-  user.cart.splice(productIndex, 1);
-  await user.save();
   req.flash("success", "Product removed from cart! 🛒");
   res.redirect("/cart");
 });
